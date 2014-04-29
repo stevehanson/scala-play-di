@@ -1,9 +1,9 @@
-@(message: String, greeting: String)
+@(message: String, greeting: String, hello: String)
 
 @main("Welcome to Play") {
 
 
 	@play20.welcome(message)
-	<small>@greeting</small>
+	<small>@greeting, @hello</small>
 
 }

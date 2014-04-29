@@ -1,55 +1,33 @@
 package service
 
-import javax.inject._
+import org.springframework.stereotype.Service
 
 trait Translator {
 	def translate(phrase: String) : String
 }
 
-class FrenchTranslator extends Translator {
-  override def translate(phrase: String) = {
-    phrase.toLowerCase().split(" ").map( word => {
-      word match {
-        case "hello" => "Bonjour"
-        case "world" => "monde"
-        case x => x
-      }
-    }).mkString(" ")
-  }
-}
-
-class SpanishTranslator extends Translator {
-  override def translate(phrase: String) = {
-    phrase.toLowerCase().split(" ").map( word => {
-      word match {
-        case "hello" => "Hola"
-        case "world" => "mundo"
-        case x => x
-      }
-    }).mkString(" ")
-  }
-}
-
-trait Greeter {
-  def hello() : String
-}
-
-@Singleton()
-class GreeterImpl extends Greeter {
-  def hello() = "HELLO"
-}
-
-class HillbillyGreeter extends Greeter {
-  def hello() = "HOWDY"
-}
-
-object Trans extends App {
+abstract class BaseTranslator extends Translator {
   
-	val tr = new FrenchTranslator
-	println("Translate")
-	//println(new GreeterImpl().hello())
-	println(tr.translate("hello world mon aime"))
- 
+  protected val dict: Map[String, String] // override in implementations
+  
+  override def translate(phrase: String) = {
+    phrase.toLowerCase().split(" ").map( word => {
+      if (dict.contains(word)) dict(word) else word
+    }).mkString(" ")
+  }
 }
 
+@Service
+class FrenchTranslator extends BaseTranslator {
+  val dict = Map(
+    "hello" -> "Bonjour",
+    "world" -> "monde"
+  )
+}
 
+class SpanishTranslator extends BaseTranslator {
+  val dict = Map(
+    "hello" -> "Hola",
+    "world" -> "mundo"
+  )
+}
