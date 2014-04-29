@@ -1,0 +1,16 @@
+@(message: String, people: List[Person])
+
+@main("Welcome to Play") {
+
+	<h2>People:</h2>
+    
+    
+    <ul>
+	    @for(person <- people) {
+		  <li>@person.name, @person.age</li>
+		}
+	</ul>
+
+	@play20.welcome(message)
+
+}
