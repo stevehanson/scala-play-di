@@ -14,7 +14,7 @@ case class Address(id: Option[Int], personId: Int, address1: String, state: Stri
 class PersonTable(tag: Tag) extends Table[Person](tag, "PERSON") {
   def id = column[Option[Int]]("id", O.PrimaryKey, O.AutoInc)
   def name = column[String]("name")
-  def age = column[Int]("int")
+  def age = column[Int]("age")
   
   //def addresses = TableQuery[AddressTable].filter(_.person_id === this.id).list
 
